@@ -19,7 +19,7 @@
             <div class="col-lg-4 col-md-6 col-sm-12 tm-catalog-item">
                 <div class="position-relative tm-thumbnail-container">
                     <img src="<?=$video["thumbnail_url"]?>" alt="Image" class="img-fluid tm-catalog-item-img">    
-                    <a href="video-page.html?video=<?=$video["id"]?>" class="position-absolute tm-img-overlay">
+                    <a href="video-page?video=<?=$video["id"]?>" class="position-absolute tm-img-overlay">
                         <i class="fas fa-play tm-overlay-icon"></i>
                     </a>
                 </div>
@@ -45,14 +45,16 @@
             if ($page < 3) {
                 $page = 3;
             }
+        } else {
+            $_GET["page"] = 1;
         } ?>
 
         <ul class="nav tm-paging-links">
-            <li class="nav-item"><a href="./?page=<?=($page - 2)?><?=$category?>" class="nav-link tm-paging-link"><?=($page - 2)?></a></li>
-            <li class="nav-item"><a href="./?page=<?=($page - 1)?><?=$category?>" class="nav-link tm-paging-link"><?=($page - 1)?></a></li>
-            <li class="nav-item active"><a href="./?page=<?=($page)?><?=$category?>" class="nav-link tm-paging-link"><?=($page)?></a></li>
-            <li class="nav-item"><a href="./?page=<?=($page + 1)?><?=$category?>" class="nav-link tm-paging-link"><?=($page + 1)?></a></li>
-            <li class="nav-item"><a href="./?page=<?=($page + 2)?><?=$category?>" class="nav-link tm-paging-link"><?=($page + 2)?></a></li>
+            <li class="nav-item <?=($page - 2 == $_GET["page"] ? "active" : "")?>"><a href="./?page=<?=($page - 2)?><?=$category?>" class="nav-link tm-paging-link"><?=($page - 2)?></a></li>
+            <li class="nav-item <?=($page - 1 == $_GET["page"] ? "active" : "")?>"><a href="./?page=<?=($page - 1)?><?=$category?>" class="nav-link tm-paging-link"><?=($page - 1)?></a></li>
+            <li class="nav-item <?=($page == $_GET["page"] ? "active" : "")?>"><a href="./?page=<?=($page)?><?=$category?>" class="nav-link tm-paging-link"><?=($page)?></a></li>
+            <li class="nav-item <?=($page + 1 == $_GET["page"] ? "active" : "")?>"><a href="./?page=<?=($page + 1)?><?=$category?>" class="nav-link tm-paging-link"><?=($page + 1)?></a></li>
+            <li class="nav-item <?=($page + 2 == $_GET["page"] ? "active" : "")?>"><a href="./?page=<?=($page + 2)?><?=$category?>" class="nav-link tm-paging-link"><?=($page + 2)?></a></li>
         </ul>
     </div>
     <script type="text/javascript">

@@ -7,6 +7,7 @@ class IndexViewController extends ViewController {
 			"index" => "Index",
 			"about" => "About",
 			"contact" => "Contact",
+			"video-page" => "Video",
 		];
 
 		// prihlasit sa da odkialkolvek na stranke, spravime to pred volbou metody
@@ -28,8 +29,26 @@ class IndexViewController extends ViewController {
 
 		$videos = new Videos();
 		$this->data["videos"] = $videos->getAll($_GET["page"], $_GET["category"]);
+	}
 
-		// TODO get number of pages
+	function Video() {
+
+		if (!isset($_GET["video"]))
+			header("Location: /");
+
+		$videos = new Videos();
+
+		if (isset($_GET["action"])) {
+			if ($_GET["action"] == "like") {
+				$this->response = $videos->like($_GET["video"]);
+			}
+		}
+		
+		$this->data["video"] = $videos->get($_GET["video"]);
+
+		if (count($this->data["video"]) == 0) {
+			header("Location: /");
+		}
 	}
 
 	function Contact() {
