@@ -5,6 +5,8 @@ class IndexViewController extends ViewController {
 	function __construct() {
 		$this->paths = [
 			"index" => "Index",
+			"about" => "About",
+			"contact" => "Contact",
 		];
 
 		// prihlasit sa da odkialkolvek na stranke, spravime to pred volbou metody
@@ -26,5 +28,13 @@ class IndexViewController extends ViewController {
 
 		$videos = new Videos();
 		$this->data["videos"] = $videos->getAll($_GET["page"], $_GET["category"]);
+	}
+
+	function Contact() {
+		
+	}
+
+	function About() {
+
 	}
 }
