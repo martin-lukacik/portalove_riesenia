@@ -1,5 +1,8 @@
 <?php
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 $config = [
 
 	"url" => "http://localhost",
@@ -12,6 +15,6 @@ $config = [
 	],
 ];
 
-spl_autoload_register(function ($class_name) { 
-    include("./php/" . $class_name . ".php");
+spl_autoload_register(function ($class_name) {
+	include("./php/" . $class_name . ".php");
 });
