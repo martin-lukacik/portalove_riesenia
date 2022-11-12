@@ -152,8 +152,11 @@ https://templatemo.com/tm-552-video-catalog
             let navItems = document.querySelectorAll("nav .nav-item");
             let navLinks = document.querySelectorAll("nav .nav-link");
 
+            let url = new URL(document.URL);
+            url.search = "";
+
             for (let i = 0; i < navItems.length; ++i) {
-                if (document.URL == navLinks[i].href) {
+                if (url == navLinks[i].href) {
                     navItems[i].classList.add("active");
                     break;
                 }

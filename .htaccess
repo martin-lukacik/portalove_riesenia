@@ -1,4 +1,6 @@
 RewriteEngine on
+RewriteRule ^(img) - [L]
+RewriteRule ^(video) - [L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ /index.php?route=$1 [NC,L,QSA]

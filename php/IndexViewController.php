@@ -28,10 +28,12 @@ class IndexViewController extends ViewController {
 
 		$videos = new Videos();
 		$this->data["videos"] = $videos->getAll($_GET["page"], $_GET["category"]);
+
+		// TODO get number of pages
 	}
 
 	function Contact() {
-		
+
 	}
 
 	function About() {
