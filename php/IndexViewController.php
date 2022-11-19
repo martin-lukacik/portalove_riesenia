@@ -45,6 +45,9 @@ class IndexViewController extends ViewController {
 		}
 
 		$this->data["video"] = $videos->get($_GET["video"]);
+		$this->data["recommended_videos"] = $videos->getRecommended();
+		$this->data["parallax_header"] = "tm-fixed-header-1";
+		$this->data["parallax_title"] = $this->data["video"]["title"];
 
 		if (count($this->data["video"]) == 0) {
 			header("Location: /");

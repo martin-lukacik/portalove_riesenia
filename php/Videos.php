@@ -17,6 +17,10 @@ class Videos extends Model {
 		return $this->db->read("SELECT v.*, a.name AS author, a.url AS author_url, (SELECT COUNT(l.video_id) FROM video_likes l WHERE l.video_id = ?) AS likes FROM videos v INNER JOIN video_authors a ON v.author_id = a.id WHERE v.id = ? LIMIT 1", "ii", $id, $id);
 	}
 
+	public function getRecommended() {
+		return $this->db->read("SELECT id, title, thumbnail_url FROM videos ORDER BY RAND() LIMIT 6");
+	}
+
 	public function like($id) {
 
 		$response = new Response();
