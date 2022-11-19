@@ -11,7 +11,7 @@ class IndexViewController extends ViewController {
 		];
 
 		// prihlasit sa da odkialkolvek na stranke, spravime to pred volbou metody
-		if (isset($_POST["action"]) && isset($_POST["email"]) && !strcmp($_POST["action"], "do_subscribe")) {
+		if (isset($_POST["action"]) && isset($_POST["email"]) && !strcmp($_POST["action"], "subscribe")) {
 			$newsletter = new Newsletter();
 			$this->response = $newsletter->subscribe($_POST["email"]);
 		}

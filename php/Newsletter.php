@@ -10,7 +10,8 @@ class Newsletter extends Model {
 			$this->db->read("SELECT id FROM newsletter WHERE email = ?", "s", $email);
 
 			if ($this->db->lastRows() > 0) {
-				$response->error("Tento e-mail je uz prihlaseny na odber");
+				//$response->error("Tento e-mail je uz prihlaseny na odber");
+				return $this->unsubscribe($email);
 			} else {
 				$this->db->write("INSERT INTO newsletter (email) VALUES (?)", "s", $email);
 				$response->write("Uspesne prihlaseny na odber");
