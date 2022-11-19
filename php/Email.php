@@ -45,4 +45,8 @@ class Email extends Model {
 
 		return $response;
 	}
+
+	public function getCategories() {
+		return $this->db->read("SELECT * FROM email_categories");
+	}
 }
