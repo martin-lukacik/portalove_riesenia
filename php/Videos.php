@@ -45,4 +45,61 @@ class Videos extends Model {
 
 		return $this->db->lastRows() > 0;
 	}
+
+	public function create($title, $description, $author, $category, $url, $thumbnail) {
+
+		$response = new Response();
+
+		$this->db->read("SELECT id FROM authors WHERE id = ?", "i", $author);
+
+		if ($this->db->lastRows() == 0) {
+			$response->error("Autor neexistuje");
+			return $response;
+		}
+
+		$this->db->write("INSERT INTO videos (title, description, author_id, category_id, url, thumbnail_url) VALUES (?, ?, ?, ?, ?, ?)", "ssiiss", $title, $description, $author, $category, $url, $thumbnail);
+
+		if (strlen($this->db->getError())) {
+			$response->error($this->db->getError());
+			return $response;
+		}
+
+		return $this->db->getLastID();
+	}
+
+	public function update($id, $title, $description, $author, $category, $url, $thumbnail) {
+
+		$response = new Response();
+
+		$this->db->read("SELECT id FROM videos WHERE id = ?", "i", $id);
+
+		if ($this->db->lastRows() == 0) {
+			$response->error("Video neexistuje");
+			return $response;
+		}
+
+		$this->db->write("UPDATE videos SET title = ?, description = ?, author_id = ?, category_id = ?, url = ?, thumbnail_url = ? WHERE id = ?", "ssiissi", $title, $description, $author, $category, $url, $thumbnail, $id);
+	
+		if (strlen($this->db->getError())) {
+			$response->error($this->db->getError());
+		} else {
+			$response->write("Zmeny boli ulozene");
+		}
+
+		return $response;
+	}
+
+	public function delete($id) {
+		$this->db->write("DELETE FROM video_likes WHERE video_id = ?", "i", $id);
+		$this->db->write("DELETE FROM videos WHERE id = ?", "i", $id);
+
+		$response = new Response();
+		if ($this->db->lastRows() > 0) {
+			$response->write("Video (ID: " . $id . ") bolo odstranene");
+		} else {
+			$response->error("Video neexistuje");
+		}
+
+		return $response;
+	}
 }
