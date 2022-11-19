@@ -21,4 +21,19 @@ class Newsletter extends Model {
 
 		return $response;
 	}
+
+	function unsubscribe($email) {
+
+		$this->db->write("DELETE FROM newsletter WHERE email = ?", "s", $email);
+
+		$response = new Response();
+
+		if ($this->db->lastRows() > 0) {
+			$response->write("E-mail " . $email . " bol odhlaseny z odberu");
+		} else {
+			$response->error("Uvedeny e-mail nie je prihlaseny na odber");
+		}
+
+		return $response;
+	}
 }
