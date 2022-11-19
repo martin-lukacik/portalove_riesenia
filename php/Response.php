@@ -1,14 +1,22 @@
 <?php
 
 class Response {
-	public $success = Array();
-	public $failure = Array();
+	public $success = []];
+	public $failure = [];
 
 	function write($message) {
-		array_push($this->success, $message);
+		$this->success[] = $message;
 	}
 
 	function error($message) {
-		array_push($this->failure, $message);
+		$this->failure[] = $message;
+	}
+
+	function getMessageCount() {
+		return count($this->success);
+	}
+
+	function getErrorCount() {
+		return count($this->failure);
 	}
 }

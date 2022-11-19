@@ -45,13 +45,14 @@ class IndexViewController extends ViewController {
 		}
 
 		$this->data["video"] = $videos->get($_GET["video"]);
-		$this->data["recommended_videos"] = $videos->getRecommended();
-		$this->data["parallax_header"] = "tm-fixed-header-1";
-		$this->data["parallax_title"] = $this->data["video"]["title"];
 
 		if (count($this->data["video"]) == 0) {
 			header("Location: /");
 		}
+
+		$this->data["recommended_videos"] = $videos->getRecommended();
+		$this->data["parallax_header"] = "tm-fixed-header-1";
+		$this->data["parallax_title"] = $this->data["video"]["title"];
 	}
 
 	function Contact() {
@@ -61,7 +62,30 @@ class IndexViewController extends ViewController {
 		$email = new Email();
 		$this->data["email_categories"] = $email->getCategories();
 		if (isset($_POST["action"]) && !strcmp($_POST["action"], "send_email")) {
-			$this->response = $email->send($_POST["sender_name"], $_POST["sender_email"], $_POST["subject"], $_POST["message"]);
+
+			$response = new Response();
+			if (empty($_POST["sender_name"])) {
+				$response->error("Meno odosielatela nemoze byt prazdne");
+			}
+
+			if (empty($_POST["sender_email"]) || !filter_var($_POST["sender_email"], FILTER_VALIDATE_EMAIL)) {
+				$response->error("E-mail nie je platny");
+			}
+
+			if (!isset($_POST["subject"])) {
+				$response->error("Predmet nie je platny");
+			} else if ($_POST["subject"] == -1) {
+				$response->error("Nezvolili ste predmet spravy");
+			}
+
+			if (!isset($_POST["message"])) {
+				$response->error("Sprava nemoze byt prazdna");
+			}
+
+			if ($response->getErrorCount() == 0)
+				$this->response = $email->send($_POST["sender_name"], $_POST["sender_email"], $_POST["subject"], $_POST["message"]);
+			else
+				$this->response = $response;
 		}
 	}
 
