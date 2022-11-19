@@ -51,7 +51,6 @@ class Videos extends Model {
 		$response = new Response();
 
 		$authors = new Authors();
-
 		if (count($authors->get($author)) == 0) {
 			$response->error("Autor neexistuje");
 			return $response;
@@ -71,10 +70,14 @@ class Videos extends Model {
 
 		$response = new Response();
 
-		$this->db->read("SELECT id FROM videos WHERE id = ?", "i", $id);
-
-		if ($this->db->lastRows() == 0) {
+		if (!$this->videoExists($id)) {
 			$response->error("Video neexistuje");
+			return $response;
+		}
+
+		$authors = new Authors();
+		if (count($authors->get($author)) == 0) {
+			$response->error("Autor neexistuje");
 			return $response;
 		}
 
