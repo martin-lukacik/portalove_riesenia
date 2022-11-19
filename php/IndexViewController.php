@@ -11,7 +11,7 @@ class IndexViewController extends ViewController {
 		];
 
 		// prihlasit sa da odkialkolvek na stranke, spravime to pred volbou metody
-		if (isset($_POST["action"]) && isset($_POST["email"]) && !strcmp($_POST["action"], "subscribe")) {
+		if (isset($_POST["action"]) && !strcmp($_POST["action"], "subscribe") && isset($_POST["email"])) {
 			$newsletter = new Newsletter();
 			$this->response = $newsletter->subscribe($_POST["email"]);
 		}
@@ -21,10 +21,10 @@ class IndexViewController extends ViewController {
 		$categories = new Categories();
 		$this->data["categories"] = $categories->get();
 
-		if (!isset($_GET["category"]))
+		if (!isset($_GET["category"]) || !is_numeric($_GET["category"]))
 			$_GET["category"] = -1;
 
-		if (!isset($_GET["page"]))
+		if (!isset($_GET["page"]) || !is_numeric($_GET["page"]) || $_GET["page"] < 1)
 			$_GET["page"] = 1;
 
 		$videos = new Videos();

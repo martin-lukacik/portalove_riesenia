@@ -1,7 +1,7 @@
 <?php
 
 class Response {
-	public $success = []];
+	public $success = [];
 	public $failure = [];
 
 	function write($message) {

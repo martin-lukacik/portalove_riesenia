@@ -15,7 +15,10 @@
     </div>
 
     <div class="row tm-catalog-item-list">
-        <? foreach ($view->data["videos"] as $video) { ?>
+        <? foreach ($view->data["videos"] as $video) {
+
+            $video["description"] = strlen($video["description"]) > 192 ? substr($video["description"],0 , 192)."..." : $video["description"];
+        ?>
             <div class="col-lg-4 col-md-6 col-sm-12 tm-catalog-item">
                 <div class="position-relative tm-thumbnail-container">
                     <img src="<?=$video["thumbnail_url"]?>" alt="Image" class="img-fluid tm-catalog-item-img">    
