@@ -43,7 +43,7 @@ class IndexViewController extends ViewController {
 				$this->response = $videos->like($_GET["video"]);
 			}
 		}
-		
+
 		$this->data["video"] = $videos->get($_GET["video"]);
 
 		if (count($this->data["video"]) == 0) {
@@ -52,10 +52,12 @@ class IndexViewController extends ViewController {
 	}
 
 	function Contact() {
-
+		$this->data["parallax_header"] = "tm-fixed-header-3";
+		$this->data["parallax_title"] = "Talk to Us<br>about any question you have";
 	}
 
 	function About() {
-
+		$this->data["parallax_header"] = "tm-fixed-header-2";
+		$this->data["parallax_title"] = "Another Image BG<br>it can be fixed.<br>Content will simply slide over.";
 	}
 }
