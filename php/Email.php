@@ -5,8 +5,16 @@ class Email extends Model {
 	public function send($sender, $email, $subject, $message) {
 		
 		$response = new Response();
+
 		if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 			$response->error("Uvedeny e-mail nie je platny");
+			return $response;
+		}
+
+		$categories = $this->db->read("SELECT * FROM email_categories WHERE id = ? LIMIT 1", "i", $subject);
+
+		if (count($categories) == 0) {
+			$response->error("Neplatny predmet spravy");
 			return $response;
 		}
 

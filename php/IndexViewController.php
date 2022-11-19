@@ -54,6 +54,11 @@ class IndexViewController extends ViewController {
 	function Contact() {
 		$this->data["parallax_header"] = "tm-fixed-header-3";
 		$this->data["parallax_title"] = "Talk to Us<br>about any question you have";
+
+		if (isset($_POST["action"]) && !strcmp($_POST["action"], "send_email")) {
+			$email = new Email();
+			$this->response = $email->send($_POST["sender_name"], $_POST["sender_email"], $_POST["subject"], $_POST["message"]);
+		}
 	}
 
 	function About() {
