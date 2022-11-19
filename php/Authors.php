@@ -17,6 +17,7 @@ class Authors extends Model {
 	}
 
 	public function delete() {
+		// TODO nemozno vymazat autora ak ma videa
 		throw new Exception("Not implemented", 1);
 	}
 }

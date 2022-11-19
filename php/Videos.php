@@ -50,9 +50,9 @@ class Videos extends Model {
 
 		$response = new Response();
 
-		$this->db->read("SELECT id FROM authors WHERE id = ?", "i", $author);
+		$authors = new Authors();
 
-		if ($this->db->lastRows() == 0) {
+		if (count($authors->get($author)) == 0) {
 			$response->error("Autor neexistuje");
 			return $response;
 		}
