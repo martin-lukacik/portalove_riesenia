@@ -12,6 +12,10 @@ class Authors extends Model {
 		return $this->db->read("SELECT * FROM video_authors WHERE id = ? LIMIT 1", "i", $id);
 	}
 
+	public function getAll() {
+		return $this->db->read("SELECT * FROM video_authors");
+	}
+
 	public function update($id, $author, $url) {
 		throw new Exception("Not implemented", 1);
 	}

@@ -1,0 +1,42 @@
+<div class="container-fluid">
+    <div class="row mb-5 pb-4 mt-4">
+    	<div class="col-12">
+    		<form method="post" enctype="multipart/form-data">
+    			
+    			<input type="text" name="title" placeholder="Nazov videa">
+    			<br><br>
+
+    			<textarea name="description" placeholder="Popis..."></textarea>
+    			<br><br>
+
+    			<label for="file_video">Video subor</label>
+    			<input type="file" name="file_video" id="file_video" accept="video/mp4,video/x-m4v,video/*">
+				<br><br>
+
+    			<label for="file_video">Thumbnail</label>
+    			<input type="file" name="file_image" id="file_image" accept="image/png, image/gif, image/jpeg">
+				<br><br>
+
+    			<label for="category_id">Kategoria</label>
+    			<select id="category_id" name="category_id">
+    				<option value="-1" disabled selected>- Kategoria -</option>
+    				<? foreach ($view->data["categories"] as $category) { ?>
+    					<option value="<?=$category["id"]?>"><?=$category["category"]?></option>
+    				<? } ?>
+    			</select>
+    			<br><br>
+
+    			<label for="author_id">Autor</label>
+    			<select id="author_id" name="author_id">
+    				<option value="-1" disabled selected>- Autor videa -</option>
+    				<? foreach ($view->data["authors"] as $author) { ?>
+    					<option value="<?=$author["id"]?>"><?=$author["name"]?></option>
+    				<? } ?>
+    			</select>
+    			<br><br>
+
+    			<button class="btn btn-primary" name="action" value="add_video" style="font-size:16px">Pridat video</button>
+    		</form>
+    	</div>
+    </div>
+</div>

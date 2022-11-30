@@ -8,12 +8,58 @@ class IndexViewController extends ViewController {
 			"about" => "About",
 			"contact" => "Contact",
 			"video-page" => "Video",
+			"admin" => "Admin",
 		];
 
 		// prihlasit sa da odkialkolvek na stranke, spravime to pred volbou metody
 		if (isset($_POST["action"]) && !strcmp($_POST["action"], "subscribe") && isset($_POST["email"])) {
 			$newsletter = new Newsletter();
 			$this->response = $newsletter->subscribe($_POST["email"]);
+		}
+	}
+
+	function Admin() {
+
+		$this->data["parallax_header"] = "tm-fixed-header-1";
+		$this->data["parallax_title"] = "Administracia";
+
+		$authors = new Authors();
+		$this->data["authors"] = $authors->getAll();
+
+		$categories = new Categories();
+		$this->data["categories"] = $categories->get();
+
+		$this->response = new Response();
+		
+		if (isset($_POST["action"]) && !strcmp($_POST["action"], "add_video")) {
+
+			if (!isset($_FILES["file_video"]) || $_FILES["file_video"]["size"] == 0) {
+				$this->response->error("Ziadne video nebolo poskytnute");
+			}
+
+			if (!isset($_FILES["file_image"]) || $_FILES["file_image"]["size"] == 0) {
+				$this->response->error("Ziadny thumbnail nebol poskytnuty");
+			}
+
+			$time = time();
+
+			// upload video
+			$fileName = basename($_FILES["file_video"]["name"]);
+			$targetName = $time . "." . strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+			$targetVideo = "./upload/" . $targetName;
+
+			move_uploaded_file($_FILES["file_video"]["tmp_name"], $targetVideo);
+
+			// upload image
+			$fileName = basename($_FILES["file_image"]["name"]);
+			$targetName = $time . "." . strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+			$targetImage = "./upload/" . $targetName;
+
+			move_uploaded_file($_FILES["file_image"]["tmp_name"], $targetImage);
+
+			// save
+			$videos = new Videos();
+			$this->response = $videos->create($_POST["title"], $_POST["description"], $_POST["author_id"], $_POST["category_id"], $targetVideo, $targetImage);
 		}
 	}
 

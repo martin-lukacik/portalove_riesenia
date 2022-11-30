@@ -24,17 +24,17 @@ class ViewController {
 
 	public function printResponse() {
 
-		if ($this->response == null)
+		if ($this->response == null || $this->response instanceof Response)
 			return;
 
-		if (count($this->response->failure) > 0) {
+		if (!is_null($this->response->failure) && count($this->response->failure) > 0) {
 			?><div class="alert alert-danger">
 				<h4>Chyba</h4>
 				<? foreach ($this->response->failure as $failure) {
 					?><li><?=$failure?></li><?
 				} ?>
 			</div><?
-		} else if (count($this->response->success) > 0) {
+		} else if (!is_null($this->response->success) && count($this->response->success) > 0) {
 			?><div class="alert alert-success">
 				<h4>Uspech</h4>
 				<? foreach ($this->response->success as $success) {
