@@ -9,6 +9,7 @@ class IndexViewController extends ViewController {
 			"contact" => "Contact",
 			"video-page" => "Video",
 			"admin" => "Admin",
+			"edit" => "Admin",
 		];
 
 		// prihlasit sa da odkialkolvek na stranke, spravime to pred volbou metody
@@ -30,36 +31,35 @@ class IndexViewController extends ViewController {
 		$this->data["categories"] = $categories->get();
 
 		$this->response = new Response();
+
+		$admin = new AdminViewController();
 		
 		if (isset($_POST["action"]) && !strcmp($_POST["action"], "add_video")) {
+			$admin->upload();
+		}
 
-			if (!isset($_FILES["file_video"]) || $_FILES["file_video"]["size"] == 0) {
-				$this->response->error("Ziadne video nebolo poskytnute");
+		if (!strcmp($_GET["route"], "edit")) {
+
+			if (!isset($_GET["video"])) {
+				header("Location: /");
 			}
 
-			if (!isset($_FILES["file_image"]) || $_FILES["file_image"]["size"] == 0) {
-				$this->response->error("Ziadny thumbnail nebol poskytnuty");
-			}
-
-			$time = time();
-
-			// upload video
-			$fileName = basename($_FILES["file_video"]["name"]);
-			$targetName = $time . "." . strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
-			$targetVideo = "./upload/" . $targetName;
-
-			move_uploaded_file($_FILES["file_video"]["tmp_name"], $targetVideo);
-
-			// upload image
-			$fileName = basename($_FILES["file_image"]["name"]);
-			$targetName = $time . "." . strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
-			$targetImage = "./upload/" . $targetName;
-
-			move_uploaded_file($_FILES["file_image"]["tmp_name"], $targetImage);
-
-			// save
 			$videos = new Videos();
-			$this->response = $videos->create($_POST["title"], $_POST["description"], $_POST["author_id"], $_POST["category_id"], $targetVideo, $targetImage);
+			$this->data["video"] = $videos->get($_GET["video"]);
+
+			// zistime ci video existuje v databaze
+			if (count($this->data["video"]) == 0) {
+				header("Location: /");
+			}
+
+			if (isset($_POST["action"]) && !strcmp($_POST["action"], "edit_video")) {
+				$this->response = $admin->edit($this->data["video"]["id"], $this->data["video"]["url"], $this->data["video"]["thumbnail_url"]);
+				$this->data["video"] = $videos->get($_GET["video"]);
+			}
+
+			if (isset($_POST["action"]) && !strcmp($_POST["action"], "delete_video")) {
+				$this->response = $videos->delete($_POST["video_id"]);
+			}
 		}
 	}
 
